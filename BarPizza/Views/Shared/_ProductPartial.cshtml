@@ -1,0 +1,49 @@
+﻿@using MongoDB.Bson;
+@{
+    string role = ViewData["role"].ToString();
+}
+
+@if (role == "mgz")
+{
+    <h2>Lista dei Prodotti nei magazzini</h2>
+}
+else if (role == "mng_pz" || role == "mng_bar")
+{
+    <h2>Lista dei Prodotti nel magazzino @(role=="mng_pz"?"pizzeria":"bar")</h2>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Prodotto</th>
+            <th scope="col">Quantità</th>
+            @if (role == "mgz")
+            {
+                <th scope="col">magazzino</th>
+                <th scope="col">operazioni</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in ViewData["products"] as List<BsonDocument>)
+        {
+            <tr>
+                <td>
+                    @p["description"]
+                </td>
+                <td>
+                    @p["quantity"]
+                </td>
+                @if (role == "mgz")
+                {
+                    <td>
+                        @p["_warehouse"][0]["description"]
+                    </td>
+                    <td>
+                        <a class="btn btn-secondary" href="/Magazziniere/createRequest/@p["_id"]">operazioni</a>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>

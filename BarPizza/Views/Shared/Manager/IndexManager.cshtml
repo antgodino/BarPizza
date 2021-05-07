@@ -1,0 +1,27 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["role"] = HttpContextAccessor.HttpContext.Session.GetString("role");
+    ViewData["Title"] = "Manager";
+    var show = ViewData["show"].ToString();
+}
+
+@if (ViewData["message"] != null)
+{
+    string[] message = (String[])ViewData["message"];
+    if (message.Length > 0)
+    {
+        <h3 class="text-@(message[1])">@(message[0])</h3>
+    }
+}
+
+
+@if (show == "products")
+{
+<h2>Lista dei Prodotti nel magazzino @(ViewData["role"].ToString()=="bar"?"del bar":"della pizzeria")</h2>
+    <partial name="_ProductPartial" />
+}
+else if (show == "request")
+{
+    <partial name="_RequestPartial" />
+}

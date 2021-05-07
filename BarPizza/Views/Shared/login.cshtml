@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Log In";
+}
+
+@if (@ViewData["username"] != null)
+{
+    <h1>Ciao, @ViewData["username"]</h1>
+}
+@if (@ViewData["err_cred"] != null) {
+<h1 class="text-danger">credenziali errate</h1>
+}
+
+<form action="/login/signin" method="post">
+    <div class="form-group">
+        <label>username</label>
+        <input name="username" id="username" type="text" />
+    </div>
+    <div class="form-group">
+        <label>password</label>
+        <input name="password" id="password" type="password" />
+    </div>
+    <button type="submit" class="btn btn-primary">submit</button>
+</form>

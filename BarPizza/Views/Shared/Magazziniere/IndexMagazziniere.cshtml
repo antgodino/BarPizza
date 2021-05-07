@@ -1,0 +1,18 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["role"] = HttpContextAccessor.HttpContext.Session.GetString("role");
+    ViewData["Title"] = "Magazzino";
+}
+
+@if (ViewData["message"] != null)
+{
+    string[] message = (String[])ViewData["message"];
+    if (message.Length > 0)
+    {
+        <h3 class="text-@(message[1])">@(message[0])</h3>
+    }
+
+}
+
+<partial name="_ProductPartial" />

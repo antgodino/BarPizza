@@ -1,0 +1,52 @@
+﻿@using MongoDB.Bson;
+@{
+    string role = ViewData["role"].ToString();
+}
+
+<h2>Lista rischieste spostamenti da e per magazzino @(role=="mng_pz" ? "pizzeria" : "bar")</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Descrizione</th>
+            <th scope="col">Quantità</th>
+            <th scope="col">Operazione</th>
+            <th scope="col">Da</th>
+            <th scope="col">A</th>
+            <th scope="col">token</th>
+            <th scope="col">acconsenti</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var request in ViewData["request"] as List<BsonDocument>)
+        {
+            <tr>
+                <td>
+                    @request["_products"][0]["description"]
+                </td><td>
+                    @request["_products"][0]["quantity"]
+                </td><td>
+                    @request["_operation"][0]["description"]
+                </td><td>
+                    @request["_fromwarehouse"][0]["description"]
+                </td>
+                <td>
+                    @request["_towarehouse"][0]["description"]
+                </td>
+                <td>
+                    @request["token"]
+                </td>
+                <td>
+                    <form method="post">
+                        <div class="row">
+                            <input type="hidden" name="id" value="@request["_id"]"/>
+                            <input type="hidden" name="operation" value="@request["_operation"][0]["operation"]"/>
+                            <input type="text" name="token" autocomplete="off" class="form-control col-8" placeholder="copiare il token" />
+                            <button type="submit" class="btn btn-sm btn-secondary col-3 ml-1">Conferma</button>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

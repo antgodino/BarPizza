@@ -1,0 +1,53 @@
+﻿@using MongoDB.Bson;
+@{
+    ViewData["Title"] = "Magazzino";
+    string id = ViewData["id"] == null ? "12345" : ViewData["id"].ToString();
+    Products product = (Products)ViewData["product"];
+    List<WarehouseOperations> operations = (List<WarehouseOperations>)ViewData["operations"];
+    List<Warehouse> warehouses = (List<Warehouse>)ViewData["warehouses"];
+}
+<main class="p-3">
+
+    @if (ViewData["message"] != null)
+    {
+        <h3>@(ViewData["message"].ToString())</h3>
+    }
+    <div class="form-group row">
+        <div class="col-4">
+            <label>Merce</label>
+            <input disabled value="@(product.desription)" class="form-control" />
+        </div>
+        <div class="col-4">
+            <label>Quantità</label>
+            <input disabled value="@(product.quantity)" class="form-control" />
+        </div>
+    </div>
+
+    <form id="form" method="post">
+        <input hidden value="@(id)" name="id" />
+        <input hidden value="@(product.warehouse)" name="fromWarehouse" />
+        <div class="form-group row">
+            <div class="col-4">
+                <label>Operazione</label>
+                <select class="form-control" name="operation">
+                    @foreach (WarehouseOperations o in operations)
+                    {
+                        <option value="@(o.id)">@(o.description)</option>
+                    }
+                </select>
+            </div>
+            <div class="col-4">
+                <label>Seleziona Magazino</label>
+                <select class="form-control" name="toWarehouse">
+                    @foreach (Warehouse w in warehouses)
+                    {
+                        <option value="@(w.id)">@(w.description)</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group row col">
+            <button class="btn btn-primary" type="submit">conferma</button>
+        </div>
+    </form>
+</main>

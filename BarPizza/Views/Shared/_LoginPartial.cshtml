@@ -1,0 +1,24 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    string name = HttpContextAccessor.HttpContext.Session.GetString("name");
+    string surname = HttpContextAccessor.HttpContext.Session.GetString("surname");
+}
+
+<ul class="navbar-nav">
+    @if (name != null)
+    {
+        <li class="nav-item">
+            <p class="nav-link btn btn-link text-dark">Ciao, <b>@name @surname</b></p>
+        </li>
+        <li class="nav-item">
+            <a href="/login/logout" class="nav-link btn btn-link text-dark">Logout</a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" href="/login">Login</a>
+        </li>
+    }
+</ul>
